@@ -66,7 +66,7 @@ export default async function PartnersPage(props) {
                     <tr key={partner.id}>
                       <td style={{ color: 'var(--text-muted)', fontWeight: '600' }}>{index + 1}</td>
                       <td style={{ fontWeight: '600', color: 'var(--primary-color)' }}>{partner.name}</td>
-                      <td>{partner.phone}</td>
+                      <td style={{ whiteSpace: 'nowrap' }}>{partner.phone}</td>
                       <td>
                         <span className="badge badge-info">{partner.location}</span>
                       </td>

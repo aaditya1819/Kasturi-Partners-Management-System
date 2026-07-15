@@ -109,12 +109,13 @@ export async function createSareeAction(formData) {
   const retailPrice = parseFloat(formData.get('retail_price'));
   const adminProfit = parseFloat(formData.get('admin_profit'));
   const partnerProfit = parseFloat(formData.get('partner_profit'));
+  const addedDate = formData.get('added_date') || new Date().toISOString().split('T')[0];
 
   if (!name || isNaN(buyingPrice) || isNaN(shippingCost) || isNaN(retailPrice)) {
     throw new Error('Valid Saree Name, Buying Price, Shipping Cost, and Retail Price are required.');
   }
 
-  await addSaree(name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit);
+  await addSaree(name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit, addedDate);
   
   revalidatePath('/sarees');
   revalidatePath('/');
@@ -128,12 +129,13 @@ export async function updateSareeAction(id, formData) {
   const retailPrice = parseFloat(formData.get('retail_price'));
   const adminProfit = parseFloat(formData.get('admin_profit'));
   const partnerProfit = parseFloat(formData.get('partner_profit'));
+  const addedDate = formData.get('added_date') || new Date().toISOString().split('T')[0];
 
   if (!id || !name || isNaN(buyingPrice) || isNaN(shippingCost) || isNaN(retailPrice)) {
     throw new Error('Valid Saree Name, Buying Price, Shipping Cost, and Retail Price are required.');
   }
 
-  await updateSaree(id, name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit);
+  await updateSaree(id, name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit, addedDate);
   
   revalidatePath('/sarees');
   revalidatePath('/');

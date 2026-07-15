@@ -130,16 +130,16 @@ export async function getSarees() {
   }
 }
 
-export async function addSaree(name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit) {
+export async function addSaree(name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit, addedDate) {
   if (!sql) throw new Error('Database client not connected');
   return await sql`
-    INSERT INTO sarees (name, buying_price, shipping_cost, retail_price, admin_profit, partner_profit)
-    VALUES (${name}, ${buyingPrice}, ${shippingCost}, ${retailPrice}, ${adminProfit}, ${partnerProfit})
+    INSERT INTO sarees (name, buying_price, shipping_cost, retail_price, admin_profit, partner_profit, added_date)
+    VALUES (${name}, ${buyingPrice}, ${shippingCost}, ${retailPrice}, ${adminProfit}, ${partnerProfit}, ${addedDate})
     RETURNING *
   `;
 }
 
-export async function updateSaree(id, name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit) {
+export async function updateSaree(id, name, buyingPrice, shippingCost, retailPrice, adminProfit, partnerProfit, addedDate) {
   if (!sql) throw new Error('Database client not connected');
   return await sql`
     UPDATE sarees
@@ -148,7 +148,8 @@ export async function updateSaree(id, name, buyingPrice, shippingCost, retailPri
         shipping_cost = ${shippingCost},
         retail_price = ${retailPrice},
         admin_profit = ${adminProfit},
-        partner_profit = ${partnerProfit}
+        partner_profit = ${partnerProfit},
+        added_date = ${addedDate}
     WHERE id = ${id}
     RETURNING *
   `;

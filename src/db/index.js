@@ -38,8 +38,14 @@ export async function initDB() {
         retail_price NUMERIC(10, 2) NOT NULL,
         admin_profit NUMERIC(10, 2) NOT NULL,
         partner_profit NUMERIC(10, 2) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        added_date DATE DEFAULT CURRENT_DATE
       );
+    `;
+
+    // Migration for existing databases: ensure added_date column exists
+    await sql`
+      ALTER TABLE sarees ADD COLUMN IF NOT EXISTS added_date DATE DEFAULT CURRENT_DATE;
     `;
 
     // 3. Create Orders Table

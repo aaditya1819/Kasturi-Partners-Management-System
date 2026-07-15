@@ -35,6 +35,7 @@ export default async function SareesPage() {
                 <tr>
                   <th style={{ width: '60px' }}>#</th>
                   <th>Saree Name</th>
+                  <th>Added Date</th>
                   <th>Buying Price</th>
                   <th>Shipping</th>
                   <th>Retail Price</th>

@@ -7,6 +7,7 @@ export default function SareeForm() {
   const [name, setName] = useState('');
   const [buyingPrice, setBuyingPrice] = useState('');
   const [shippingCost, setShippingCost] = useState('');
+  const [addedDate, setAddedDate] = useState(new Date().toISOString().split('T')[0]);
   const [isRounded, setIsRounded] = useState(true);
 
   // States
@@ -64,6 +65,7 @@ export default function SareeForm() {
           setName('');
           setBuyingPrice('');
           setShippingCost('');
+          setAddedDate(new Date().toISOString().split('T')[0]);
         } catch (err) {
           alert('Error adding saree: ' + err.message);
         }
@@ -111,6 +113,19 @@ export default function SareeForm() {
               onChange={(e) => setShippingCost(e.target.value)}
               min="0"
               step="any"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="added_date">Date Added</label>
+            <input
+              type="date"
+              name="added_date"
+              id="added_date"
+              className="form-input"
+              value={addedDate}
+              onChange={(e) => setAddedDate(e.target.value)}
               required
             />
           </div>

@@ -157,7 +157,8 @@ export async function seedDB() {
         shipping_cost: 120,
         retail_price: 780,
         admin_profit: 90,
-        partner_profit: 90
+        partner_profit: 90,
+        added_date: '2026-07-14'
       },
       {
         name: 'Nandani Batic',
@@ -165,7 +166,8 @@ export async function seedDB() {
         shipping_cost: 130,
         retail_price: 470,
         admin_profit: 55,
-        partner_profit: 55
+        partner_profit: 55,
+        added_date: '2026-07-14'
       }
     ];
 
@@ -173,8 +175,8 @@ export async function seedDB() {
       const existing = await sql`SELECT id FROM sarees WHERE name = ${saree.name}`;
       if (existing.length === 0) {
         const result = await sql`
-          INSERT INTO sarees (name, buying_price, shipping_cost, retail_price, admin_profit, partner_profit)
-          VALUES (${saree.name}, ${saree.buying_price}, ${saree.shipping_cost}, ${saree.retail_price}, ${saree.admin_profit}, ${saree.partner_profit})
+          INSERT INTO sarees (name, buying_price, shipping_cost, retail_price, admin_profit, partner_profit, added_date)
+          VALUES (${saree.name}, ${saree.buying_price}, ${saree.shipping_cost}, ${saree.retail_price}, ${saree.admin_profit}, ${saree.partner_profit}, ${saree.added_date})
           RETURNING id, name
         `;
         sareeMap[result[0].name] = result[0].id;

@@ -4,10 +4,25 @@ import { useState, useEffect } from 'react';
 import { updateSareeAction, deleteSareeAction } from '../actions.js';
 
 export default function SareeRow({ saree, index }) {
+  // Helper to format date string to YYYY-MM-DD
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(saree.name);
   const [buyingPrice, setBuyingPrice] = useState(saree.buying_price);
   const [shippingCost, setShippingCost] = useState(saree.shipping_cost);
+  const [addedDate, setAddedDate] = useState(
+    saree.added_date 
+      ? formatDateForInput(saree.added_date) 
+      : new Date().toISOString().split('T')[0]
+  );
   const [isRounded, setIsRounded] = useState(true);
   
   // Math preview states for edit mode
@@ -51,6 +66,7 @@ export default function SareeRow({ saree, index }) {
     formData.append('retail_price', retailPrice.toString());
     formData.append('admin_profit', profitEach.toString());
     formData.append('partner_profit', profitEach.toString());
+    formData.append('added_date', addedDate);
 
     try {
       await updateSareeAction(saree.id, formData);
@@ -79,6 +95,7 @@ export default function SareeRow({ saree, index }) {
     setName(saree.name);
     setBuyingPrice(saree.buying_price);
     setShippingCost(saree.shipping_cost);
+    setAddedDate(saree.added_date ? formatDateForInput(saree.added_date) : new Date().toISOString().split('T')[0]);
     setIsEditing(false);
   };
 
@@ -93,6 +110,16 @@ export default function SareeRow({ saree, index }) {
             style={{ padding: '0.3rem', fontSize: '0.85rem', width: '100%' }}
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </td>
+        <td>
+          <input
+            type="date"
+            className="form-input"
+            style={{ padding: '0.3rem', fontSize: '0.85rem', width: '100%' }}
+            value={addedDate}
+            onChange={(e) => setAddedDate(e.target.value)}
             required
           />
         </td>
@@ -166,6 +193,11 @@ export default function SareeRow({ saree, index }) {
     <tr>
       <td style={{ color: 'var(--text-muted)', fontWeight: '600' }}>{index + 1}</td>
       <td style={{ fontWeight: '600', color: 'var(--primary-color)' }}>{saree.name}</td>
+      <td style={{ whiteSpace: 'nowrap' }}>
+        {saree.added_date
+          ? new Date(saree.added_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+          : '-'}
+      </td>
       <td>₹{parseFloat(saree.buying_price).toLocaleString('en-IN')}</td>
       <td>₹{parseFloat(saree.shipping_cost).toLocaleString('en-IN')}</td>
       <td style={{ fontWeight: '700' }}>₹{parseFloat(saree.retail_price).toLocaleString('en-IN')}</td>
